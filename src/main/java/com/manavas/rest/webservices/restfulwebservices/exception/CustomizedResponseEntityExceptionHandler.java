@@ -38,7 +38,6 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
                 "Total errors: " + ex.getErrorCount() + "; Errors: " + defaultMessage,
                 request.getDescription(false));
-
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 }
