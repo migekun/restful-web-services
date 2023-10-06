@@ -5,6 +5,10 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -25,13 +29,16 @@ public class UserResource {
 	}
 	
 	@GetMapping(path = "/users/{id}")
-	public User retrieveAllUsers(@PathVariable int id){
+	public EntityModel<User> retrieveAllUsers(@PathVariable int id){
 
 		User found = userDaoService.findOne(id);
 		if (found == null) {
             throw new UserNotFoundException("id: " + id);
         }
-		return found;
+		EntityModel<User> userEntityModel =  EntityModel.of(found);
+		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+		userEntityModel.add(link.withRel("all-users"));
+		return userEntityModel;
 	}
 
 	@DeleteMapping (path = "/users/{id}")
