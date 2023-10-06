@@ -1,19 +1,18 @@
 package com.manavas.rest.webservices.restfulwebservices.filtering;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonFilter;
 
 import java.util.Objects;
 
-@JsonIgnoreProperties("field1")
-public class SomeBean {
+@JsonFilter("SomeBeanFilter")
+public class SomeBeanDynamicFiltering {
     private String field1;
-    @JsonIgnore
+
     private String field2;
 
     private String field3;
 
-    public SomeBean(String field1, String field2, String field3) {
+    public SomeBeanDynamicFiltering(String field1, String field2, String field3) {
         this.field1 = field1;
         this.field2 = field2;
         this.field3 = field3;
@@ -47,7 +46,7 @@ public class SomeBean {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SomeBean someBean = (SomeBean) o;
+        SomeBeanDynamicFiltering someBean = (SomeBeanDynamicFiltering) o;
         return Objects.equals(field1, someBean.field1) && Objects.equals(field2, someBean.field2) && Objects.equals(field3, someBean.field3);
     }
 
