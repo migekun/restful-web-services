@@ -1,13 +1,17 @@
 package com.manavas.rest.webservices.restfulwebservices.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Entity(name = "user_details")
 public class User {
 
@@ -22,7 +26,13 @@ public class User {
 	@Past(message = "Te has equivocado de fecha en el pasado")
 	@JsonProperty("birth_date")
 	private LocalDate birthDate;
-	
+
+	@OneToMany(mappedBy = "user")
+	@JsonIgnore
+	private List<Post> posts;
+
+	protected User(){}
+
 	public User(Integer id, String name, LocalDate birthDate) {
 		super();
 		this.id = id;
@@ -30,8 +40,6 @@ public class User {
 		this.birthDate = birthDate;
 	}
 
-	public User() {
-	}
 
 	public Integer getId() {
 		return id;
